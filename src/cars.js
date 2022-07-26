@@ -14,3 +14,21 @@ export function getAllCars(req, res) {
     })
     .catch((err) => res.status(500).send(err));
 }
+
+export function createCar(req, res) {
+  // get a new car from request body
+  const newCar = req.body;
+  // connect to the database
+  const db = dbConnect();
+  // add that car to cars collection
+  db.collection("cars")
+    .add(newCar)
+    .then((doc) => {
+      res.status(201).send({
+        success: true,
+        id: doc.id,
+      });
+    })
+    .catch((err) => res.status(500).send(err));
+  // send back the new doc id
+}
